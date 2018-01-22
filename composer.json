@@ -1,0 +1,25 @@
+{
+  "name": "habil/Bcoin",
+  "description": "Bcoin js PHP SDK",
+  "license": "MIT",
+  "keywords": [
+    "bcoin"
+  ],
+  "authors": [
+    {
+      "name": "Siavash Habil",
+      "email": "amirkhiz@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "~6.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.0.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Habil\\Bcoin\\": "src"
+    }
+  }
+}
