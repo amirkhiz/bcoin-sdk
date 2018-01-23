@@ -1,0 +1,38 @@
+{
+  "network": "testnet",
+  "wid": 1,
+  "id": "primary",
+  "initialized": true,
+  "watchOnly": false,
+  "accountDepth": 1,
+  "token": "977fbb8d212a1e78c7ce9dfda4ff3d7cc8bcd20c4ccf85d2c9c84bbef6c88b3c",
+  "tokenDepth": 0,
+  "state": {
+    "tx": 0,
+    "coin": 0,
+    "unconfirmed": 0,
+    "confirmed": 0
+  },
+  "master": {
+    "encrypted": false
+  },
+  "account": {
+    "name": "default",
+    "initialized": true,
+    "witness": false,
+    "watchOnly": false,
+    "type": "pubkeyhash",
+    "m": 1,
+    "n": 1,
+    "accountIndex": 0,
+    "receiveDepth": 1,
+    "changeDepth": 1,
+    "nestedDepth": 0,
+    "lookahead": 10,
+    "receiveAddress": "mwfDKs919Br8tNFamk6RhRpfaa6cYQ5fMN",
+    "nestedAddress": null,
+    "changeAddress": "msG6V75J6XNt5mCqBhjgC4MjDH8ivEEMs9",
+    "accountKey": "tpubDDRH1rj7ut9ZjcGakR9VGgXU8zYSZypLtMr7Aq6CZaBVBrCaMEHPzye6ZZbUpS8YmroLfVp2pPmCdaKtRdCuTCK2HXzwqWX3bMRj3viPMZo",
+    "keys": []
+  }
+}
