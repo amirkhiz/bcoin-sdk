@@ -23,6 +23,8 @@ class Base
      * The class to inspect.
      *
      * @param \Habil\Bcoin\Model $model
+     *
+     * @throws \ReflectionException
      */
     public function __construct(Model $model)
     {
@@ -67,6 +69,16 @@ class Base
     public function singular()
     {
         return $this->getNameInstance()->singular();
+    }
+
+    /**
+     * Convert the name to camelcase
+     *
+     * @return \Habil\Bcoin\Meta\Name
+     */
+    public function camelcase()
+    {
+        return $this->getNameInstance()->camelcase();
     }
 
     /**

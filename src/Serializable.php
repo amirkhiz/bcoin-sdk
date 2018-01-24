@@ -8,6 +8,12 @@
 
 namespace Habil\Bcoin;
 
+/**
+ * Trait Serializable
+ *
+ * @property array $serializableConfig
+ * @package Habil\Bcoin
+ */
 trait Serializable
 {
     /**
@@ -18,9 +24,21 @@ trait Serializable
     protected $serializableOptions;
 
     /**
+     * Serialize the current object to JSON
+     *
+     * @return string
+     * @throws \ReflectionException
+     */
+    public function toJson()
+    {
+        return $this->serializer()->serialize($this);
+    }
+
+    /**
      * Return the serializable options
      *
      * @return array
+     * @throws \ReflectionException
      */
     public function serializableOptions()
     {
@@ -33,12 +51,28 @@ trait Serializable
      * Set the serializable options array
      *
      * @return void
+     * @throws \ReflectionException
      */
     private function setSerializableOptionsArray()
     {
         $this->serializableOptions = [
-            'root'            => $this->base()->lowercase()->singular(),
-            'collection_root' => $this->base()->lowercase()->plural(),
+            'root'               => $this->base()->lowercase()->singular(),
+            'collection_root'    => $this->base()->lowercase()->plural(),
+            'include_root'       => TRUE,
+            'additional_methods' => [],
         ];
+    }
+
+    /**
+     * Create a new Serializer object
+     *
+     * @return Serializer
+     * @throws \ReflectionException
+     */
+    private function serializer()
+    {
+        $this->setSerializableOptionsArray();
+
+        return new Serializer($this->serializableOptions());
     }
 }

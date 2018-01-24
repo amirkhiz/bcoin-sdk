@@ -11,6 +11,12 @@ namespace Habil\Bcoin;
 use Habil\Bcoin\Meta\Base;
 use Habil\Bcoin\Querying\Configuration;
 
+/**
+ * Class Model
+ *
+ * @package Habil\Bcoin
+ * @author  Siavash Habil <amirkhiz@gmail.com>
+ */
 abstract class Model
 {
     use Validating, Configuration;
@@ -51,6 +57,13 @@ abstract class Model
     protected $serializableConfig = [];
 
     /**
+     * The model's persistable config
+     *
+     * @var array
+     */
+    protected $persistableConfig = [];
+
+    /**
      * Inject the Connection dependency
      *
      * @param \Habil\Bcoin\Connection $connection
@@ -70,6 +83,18 @@ abstract class Model
     public function connection()
     {
         return $this->connection;
+    }
+
+    /**
+     * Return the model attributes
+     *
+     * @param array
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return $this->attributes;
     }
 
     /**
@@ -131,6 +156,7 @@ abstract class Model
      * Return the base meta class
      *
      * @return \Habil\Bcoin\Meta\Base
+     * @throws \ReflectionException
      */
     public function base()
     {

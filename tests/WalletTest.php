@@ -7,14 +7,14 @@
  */
 
 use Mockery as Mock;
-use Habil\Bcoin\Wallet;
+use Habil\Bcoin\Models\Wallet;
 
 class WalletTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \Habil\Bcoin\Connection */
     private $connection;
 
-    /** @var \Habil\Bcoin\Wallet */
+    /** @var \Habil\Bcoin\Models\Wallet */
     private $wallet;
 
     /** @var \GuzzleHttp\Psr7\Response */
@@ -24,7 +24,7 @@ class WalletTest extends \PHPUnit\Framework\TestCase
     {
         $this->connection = Mock::mock('Habil\Bcoin\Connection');
         $this->wallet     = new Wallet($this->connection);
-        $this->message    = Mock::mock('GuzzleHttp\Psr7\Response');
+        $this->message    = Mock::mock('Psr\Http\Message\ResponseInterface');
     }
 
     /** @test */
@@ -36,7 +36,7 @@ class WalletTest extends \PHPUnit\Framework\TestCase
 
         $wallet = $this->wallet->find('primary');
 
-        $this->assertInstanceOf('Habil\Bcoin\Wallet', $wallet);
+        $this->assertInstanceOf('Habil\Bcoin\Models\Wallet', $wallet);
         $this->assertEquals('primary', $wallet->id);
         $this->assertEquals(1, $wallet->wid);
         $this->assertEquals(TRUE, $wallet->initialized);
@@ -48,5 +48,31 @@ class WalletTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function find_all_wallets()
     {
+    }
+
+    /**
+     * @test
+     * @throws \ReflectionException
+     */
+    public function should_serialize_model()
+    {
+        $wallet = new Wallet(
+            $this->connection,
+            [
+                'network'       => 'testnet',
+                'wid'           => 1,
+                'id'            => 'primary',
+                'initialized'   => TRUE,
+                'watch_only'    => FALSE,
+                'account_depth' => 1,
+                'token'         => '977fbb8d212a1e78c7ce9dfda4ff3d7cc8bcd20c4ccf85d2c9c84bbef6c88b3c',
+                'token_depth'   => 0,
+            ]
+        );
+
+        $stub = json_decode(file_get_contents(dirname(__FILE__) . '/stubs/wallet.json'), TRUE);
+//        unset($stub['wallet']['state'], $stub['wallet']['master'], $stub['wallet']['account']);
+
+        $this->assertEquals(json_encode($stub), $wallet->toJson());
     }
 }

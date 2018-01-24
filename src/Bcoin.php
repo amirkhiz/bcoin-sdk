@@ -8,6 +8,8 @@
 
 namespace Habil\Bcoin;
 
+use Habil\Bcoin\Models\Wallet;
+
 class Bcoin
 {
     /**
@@ -32,7 +34,7 @@ class Bcoin
     /**
      * Return a new Wallet Model
      *
-     * @return \Habil\Bcoin\Wallet
+     * @return \Habil\Bcoin\Models\Wallet
      */
     public function wallet()
     {

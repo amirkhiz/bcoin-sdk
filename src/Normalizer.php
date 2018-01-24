@@ -10,6 +10,11 @@ namespace Habil\Bcoin;
 
 use Illuminate\Support\Collection;
 
+/**
+ * Class Normalizer
+ *
+ * @package Habil\Bcoin
+ */
 class Normalizer
 {
     /**
@@ -49,7 +54,7 @@ class Normalizer
 
     public function __construct(Model $model, array $options = [])
     {
-        $this->model   = $model;
+        $this->model = $model;
         $this->options = $options;
     }
 
@@ -141,7 +146,7 @@ class Normalizer
     {
         $class = ucfirst($name);
 
-        $class = "Habil\Bcoin\\$class";
+        $class = "Habil\Bcoin\Models\\$class";
 
         $attributes = Helper::toSnakeCase($attributes);
 
@@ -201,10 +206,13 @@ class Normalizer
      * @param array $attributes
      *
      * @return \Habil\Bcoin\Model
+     * @throws \ReflectionException
      */
     private function normalizeModel(array $attributes)
     {
-        return $this->createNewModelInstance($this->model->base()->singular(), $attributes[(string)$this->root()]);
+        return $this->createNewModelInstance(
+            $this->model->base()->singular()->camelCase(), $attributes[(string)$this->root()]
+        );
     }
 
     /**

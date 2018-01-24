@@ -34,6 +34,6 @@ class BcoinTest extends PHPUnit\Framework\TestCase
 
     public function testCreateNewWalletModel()
     {
-        $this->assertInstanceOf('Habil\Bcoin\Wallet', $this->bcoin->wallet());
+        $this->assertInstanceOf('Habil\Bcoin\Models\Wallet', $this->bcoin->wallet());
     }
 }

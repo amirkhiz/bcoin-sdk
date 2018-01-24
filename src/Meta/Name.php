@@ -8,7 +8,9 @@
 
 namespace Habil\Bcoin\Meta;
 
+use Habil\Bcoin\Helper;
 use Illuminate\Support\Pluralizer;
+use Illuminate\Support\Str;
 
 class Name
 {
@@ -69,6 +71,16 @@ class Name
     public function singular()
     {
         return new Name(Pluralizer::singular($this->name));
+    }
+
+    /**
+     * Convert the name to camelcase
+     *
+     * @return \Habil\Bcoin\Meta\Name
+     */
+    public function camelcase()
+    {
+        return new Name(Str::camel($this->name));
     }
 
     /**
