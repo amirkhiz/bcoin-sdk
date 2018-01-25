@@ -66,19 +66,14 @@ class Connection
 
         return new Client(
             [
-                'base_url' => "http://{$this->username}:{$this->password}@{$this->ip}:{$this->port}",
-                'defaults' => [
-                    'headers' => [
-                        'Accept'       => 'application/json',
-                        'Content-Type' => 'application/json',
-                    ],
-                ],
+                'base_uri' => "http://{$this->username}:{$this->password}@{$this->ip}:{$this->port}",
             ]
         );
     }
 
     /**
      * Send a GET request
+     *
      * @param string $uri
      * @param array  $params
      *
@@ -108,6 +103,10 @@ class Connection
         $options = [];
         !empty($body) && $options['body'] = $body;
 
+        $options['header'] = [
+            'Content-Type' => 'application/json',
+        ];
+
         return $this->client()->post(
             $uri,
             $options
@@ -126,6 +125,10 @@ class Connection
     {
         $options = [];
         !empty($body) && $options['body'] = $body;
+
+        $options['header'] = [
+            'Content-Type' => 'application/json',
+        ];
 
         return $this->client()->put(
             $uri,

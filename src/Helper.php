@@ -47,4 +47,26 @@ class Helper
 
         return $camelified;
     }
+
+    /**
+     * @param mixed $value
+     * @param bool  $dieFlag
+     * @param bool  $returnFlag
+     *
+     * @return mixed
+     */
+    public static function debug($value, $dieFlag = TRUE, $returnFlag = FALSE)
+    {
+        echo '<pre>';
+        $return = print_r($value, $returnFlag);
+        echo '</pre>';
+
+        if ($dieFlag) {
+            die();
+        }
+
+        if ($returnFlag) {
+            return $return;
+        }
+    }
 }

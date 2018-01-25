@@ -44,7 +44,7 @@ class Options
      */
     public function singular()
     {
-        return $this->options['singular'];
+        return $this->options['singular']();
     }
 
     /**
@@ -54,6 +54,6 @@ class Options
      */
     public function plural()
     {
-        return $this->options['plural'];
+        return $this->options['plural']();
     }
 }

@@ -7,6 +7,8 @@
  */
 
 namespace Habil\Bcoin\Querying;
+
+use Habil\Bcoin\Helper;
 use Habil\Bcoin\Normalizer;
 
 /**
@@ -20,7 +22,7 @@ trait FindOne
     /**
      * Find a single entity by it's id
      *
-     * @param int $id
+     * @param mixed $id
      *
      * @return \Habil\Bcoin\Model
      * @throws \ReflectionException
@@ -33,6 +35,6 @@ trait FindOne
 
         $normalizer = new Normalizer($this);
 
-        return $normalizer->model($response->json());
+        return $normalizer->model(json_decode($response->getBody(), TRUE));
     }
 }

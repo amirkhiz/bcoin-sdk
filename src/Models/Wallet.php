@@ -73,7 +73,7 @@ class Wallet extends Model
         $this->account();
     }
 
-    public function state()
+    private function state()
     {
         $this->belongsTo(
             'state',
@@ -84,7 +84,7 @@ class Wallet extends Model
         );
     }
 
-    public function master()
+    private function master()
     {
         $this->belongsTo(
             'master',
@@ -95,7 +95,7 @@ class Wallet extends Model
         );
     }
 
-    public function account()
+    private function account()
     {
         $this->belongsTo(
             'account',

@@ -20,7 +20,7 @@ trait BelongsTo
      */
     public function belongsTo($name, $options = [])
     {
-        $association = new BelongsToAssociation($name, $this, $options);
+        $association = new BelongsToAssociation($name, $this, $this->connection, $options);
 
         $this->associations[$name] = $association;
     }

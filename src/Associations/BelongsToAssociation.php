@@ -2,6 +2,9 @@
 
 namespace Habil\Bcoin\Associations;
 
+use Habil\Bcoin\Connection;
+use Habil\Bcoin\Helper;
+
 /**
  * Class BelongsToAssociation
  *
@@ -20,6 +23,11 @@ class BelongsToAssociation
     private $model;
 
     /**
+     * @var \Habil\Bcoin\Connection
+     */
+    private $connection;
+
+    /**
      * @var array
      */
     private $options;
@@ -27,15 +35,17 @@ class BelongsToAssociation
     /**
      * Create a new BelongsToAssociation
      *
-     * @param string             $name
-     * @param \Habil\Bcoin\Model $model
-     * @param array              $options
+     * @param string                  $name
+     * @param \Habil\Bcoin\Model      $model
+     * @param \Habil\Bcoin\Connection $connection
+     * @param array                   $options
      */
-    public function __construct($name, $model, $options = [])
+    public function __construct($name, $model, Connection $connection, $options = [])
     {
-        $this->name    = $name;
-        $this->model   = $model;
-        $this->options = $options;
+        $this->name       = $name;
+        $this->model      = $model;
+        $this->options    = $options;
+        $this->connection = $connection;
     }
 
     /**
@@ -88,5 +98,29 @@ class BelongsToAssociation
     private function inferForeignKey()
     {
         return strtolower($this->name) . '_id';
+    }
+
+    /**
+     * @return string
+     */
+    public function className()
+    {
+        if (isset($this->options['class_name'])) {
+            return 'Habil\Bcoin\Models\\' . $this->options['class_name'];
+        }
+
+        return 'Habil\Bcoin\Models\\' . strtoupper($this->name);
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return mixed
+     */
+    public function classInstance(array $attributes)
+    {
+        $className = $this->className();
+
+        return new $className($this->connection, $attributes);
     }
 }

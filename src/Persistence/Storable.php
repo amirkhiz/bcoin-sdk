@@ -7,13 +7,13 @@
  */
 
 namespace Habil\Bcoin\Persistence;
+use Habil\Bcoin\Helper;
 
 /**
  * Trait Storable
  *
  * @property \Habil\Bcoin\Connection $connection
  * @package Habil\Bcoin\Persistence
- * @author  Siavash Habil <amirkhiz@gmail.com>
  */
 trait Storable
 {
@@ -23,15 +23,15 @@ trait Storable
      * @param array $attributes
      *
      * @return \Habil\Bcoin\Model
+     * @throws \ReflectionException
      */
     public function create(array $attributes)
     {
-        /** @var \Habil\Bcoin\Model $model */
-        $model = new static($this->connection, $attributes);
+        $this->fill($attributes);
 
-        $model->save();
+        $this->save();
 
-        return $model;
+        return $this;
     }
 
     /**
@@ -40,6 +40,7 @@ trait Storable
      * @param array $attributes
      *
      * @return bool
+     * @throws \ReflectionException
      */
     public function update(array $attributes)
     {
@@ -52,6 +53,7 @@ trait Storable
      * Save the current entity
      *
      * @return bool
+     * @throws \ReflectionException
      */
     public function save()
     {
@@ -80,12 +82,17 @@ trait Storable
      * Create a new entity request
      *
      * @return bool
+     * @throws \ReflectionException
      */
     private function createNewEntityRequest()
     {
         $endpoint = '/' . $this->persistableConfig()->create();
 
-        $this->id = $this->connection->post($endpoint, $this->toJson());
+        if ($this->serializableConfig['exclude_id']) {
+            $this->connection->put($endpoint, $this->toJson());
+        } else {
+            $this->id = $this->connection->put($endpoint, $this->toJson());
+        }
 
         return TRUE;
     }
@@ -94,6 +101,7 @@ trait Storable
      * Update an existing request
      *
      * @return bool
+     * @throws \ReflectionException
      */
     private function updateExistingEntityRequest()
     {

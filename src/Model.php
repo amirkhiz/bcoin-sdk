@@ -233,7 +233,7 @@ abstract class Model
         }
 
         if (isset($this->associations[$key])) {
-            $this->relations[$key] = $value;
+            $this->relations[$key] = $this->associations[$key]->classInstance($value);
 
             return;
         }

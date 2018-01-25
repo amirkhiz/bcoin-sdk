@@ -10,6 +10,7 @@ namespace Habil\Bcoin\Models;
 
 use Habil\Bcoin\Associations;
 use Habil\Bcoin\Connection;
+use Habil\Bcoin\Helper;
 use Habil\Bcoin\Model;
 use Habil\Bcoin\Persistence\Persistable;
 use Habil\Bcoin\Querying\Findable;
@@ -52,7 +53,7 @@ class Account extends Model
      */
     protected $serializableConfig = [
         'include_root' => FALSE,
-        'exclude_id'   => FALSE,
+        'exclude_id'   => TRUE,
     ];
 
     /**
@@ -68,10 +69,42 @@ class Account extends Model
      * @param \Habil\Bcoin\Connection $connection
      * @param array                   $attributes
      */
-    public function __construct(Connection $connection, array $attributes)
+    public function __construct(Connection $connection, array $attributes = [])
     {
         parent::__construct($connection);
 
         $this->fill($attributes);
+
+        $this->persistableConfig = [
+            'create' => function () {
+                return $this->createUrl();
+            },
+        ];
+
+        $this->queryableOptions = [
+            'singular' => function () {
+                return $this->singularUrl();
+            },
+        ];
+
+        $this->belongsTo('wallet', ['class_name' => 'Wallet']);
+    }
+
+    private function createUrl()
+    {
+        if ($this->wallet && $this->name) {
+            return 'wallet/' . $this->wallet->id . '/account/' . $this->name;
+        }
+
+        return 'account';
+    }
+
+    private function singularUrl()
+    {
+        if ($this->wallet) {
+            return 'wallet/' . $this->wallet->id . '/account';
+        }
+
+        return 'account';
     }
 }
