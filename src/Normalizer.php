@@ -296,6 +296,6 @@ class Normalizer
      */
     private function includeRoot()
     {
-        return $this->options['include_root'];
+        return $this->model->serializableOptions()['include_root'];
     }
 }

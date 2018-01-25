@@ -7,6 +7,7 @@
  */
 
 namespace Habil\Bcoin\Persistence;
+
 use Habil\Bcoin\Helper;
 
 /**
@@ -86,6 +87,7 @@ trait Storable
      */
     private function createNewEntityRequest()
     {
+        //TODO: Add catch exception for Bcoin exceptions
         $endpoint = '/' . $this->persistableConfig()->create();
 
         if ($this->serializableConfig['exclude_id']) {
@@ -105,6 +107,7 @@ trait Storable
      */
     private function updateExistingEntityRequest()
     {
+        //TODO: Add catch exception for Bcoin exceptions
         $endpoint = '/' . $this->persistableConfig()->update();
 
         $this->connection->put($endpoint, $this->toJson());

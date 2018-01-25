@@ -61,6 +61,7 @@ class Account extends Model
      */
     protected $rules = [
         'name' => 'required',
+        //TODO: Add all validation rules
     ];
 
     /**
