@@ -24,6 +24,7 @@ class Options
      *
      * @param \Habil\Bcoin\Model
      *
+     * @throws \ReflectionException
      * @return void
      */
     public function __construct(Model $model)

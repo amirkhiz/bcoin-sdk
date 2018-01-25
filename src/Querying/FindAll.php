@@ -10,6 +10,12 @@ namespace Habil\Bcoin\Querying;
 
 use Habil\Bcoin\Normalizer;
 
+/**
+ * Trait FindAll
+ *
+ * @property \Habil\Bcoin\Connection $connection
+ * @package Habil\Bcoin\Querying
+ */
 trait FindAll
 {
     /**
@@ -18,10 +24,11 @@ trait FindAll
      * @param array $params
      *
      * @return \Illuminate\Support\Collection
+     * @throws \ReflectionException
      */
     public function all($params = [])
     {
-        $endpoint = '/api/' . $this->queryableOptions()->plural();
+        $endpoint = '/' . $this->queryableOptions()->plural();
 
         $response = $this->connection->get($endpoint, $params);
 

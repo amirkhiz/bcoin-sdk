@@ -43,6 +43,27 @@ abstract class Model
     protected $fillable = [];
 
     /**
+     * The model's associations
+     *
+     * @var array
+     */
+    protected $associations = [];
+
+    /**
+     * The model's related entities
+     *
+     * @return array
+     */
+    protected $relations = [];
+
+    /**
+     * The Base meta instance
+     *
+     * @var \Habil\Bcoin\Meta\Base
+     */
+    protected $base;
+
+    /**
      * The model's queryable options
      *
      * @var array
@@ -187,6 +208,10 @@ abstract class Model
             return $this->attributes[$key];
         }
 
+        if (isset($this->relations[$key])) {
+            return $this->relations[$key];
+        }
+
         throw new \Exception("{$key} is not a valid property");
     }
 
@@ -201,8 +226,14 @@ abstract class Model
      */
     public function __set($key, $value)
     {
-        if ($this->isFillable($key)) {
+        if (!is_object($value) && $this->isFillable($key)) {
             $this->setAttribute($key, $value);
+
+            return;
+        }
+
+        if (isset($this->associations[$key])) {
+            $this->relations[$key] = $value;
 
             return;
         }

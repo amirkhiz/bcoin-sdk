@@ -23,10 +23,11 @@ trait FindOne
      * @param int $id
      *
      * @return \Habil\Bcoin\Model
+     * @throws \ReflectionException
      */
     public function find($id)
     {
-        $endpoint = '/api/' . $this->queryableOptions()->singular() . '/' . $id;
+        $endpoint = '/' . $this->queryableOptions()->singular() . '/' . $id;
 
         $response = $this->connection->get($endpoint);
 

@@ -27,7 +27,10 @@ class WalletTest extends \PHPUnit\Framework\TestCase
         $this->message    = Mock::mock('Psr\Http\Message\ResponseInterface');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @throws \ReflectionException
+     */
     public function find_wallet_by_id()
     {
         $response = file_get_contents(dirname(__FILE__) . '/stubs/wallet.json');
@@ -45,18 +48,13 @@ class WalletTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('977fbb8d212a1e78c7ce9dfda4ff3d7cc8bcd20c4ccf85d2c9c84bbef6c88b3c', $wallet->token);
     }
 
-    /** @test */
-    public function find_all_wallets()
-    {
-    }
-
     /**
      * @test
      * @throws \ReflectionException
      */
     public function should_serialize_model()
     {
-        $wallet = new Wallet(
+        $wallet          = new Wallet(
             $this->connection,
             [
                 'network'       => 'testnet',
@@ -69,9 +67,34 @@ class WalletTest extends \PHPUnit\Framework\TestCase
                 'token_depth'   => 0,
             ]
         );
+        $wallet->state   = [
+            'tx'          => 0,
+            'coin'        => 0,
+            'unconfirmed' => 0,
+            'confirmed'   => 0,
+        ];
+        $wallet->master  = ['encrypted' => FALSE];
+        $wallet->account = [
+            'name'           => "default",
+            'initialized'    => TRUE,
+            'witness'        => FALSE,
+            'watchOnly'      => FALSE,
+            'type'           => "pubkeyhash",
+            'm'              => 1,
+            'n'              => 1,
+            'accountIndex'   => 0,
+            'receiveDepth'   => 1,
+            'changeDepth'    => 1,
+            'nestedDepth'    => 0,
+            'lookahead'      => 10,
+            'receiveAddress' => "mwfDKs919Br8tNFamk6RhRpfaa6cYQ5fMN",
+            'nestedAddress'  => NULL,
+            'changeAddress'  => "msG6V75J6XNt5mCqBhjgC4MjDH8ivEEMs9",
+            'accountKey'     => "tpubDDRH1rj7ut9ZjcGakR9VGgXU8zYSZypLtMr7Aq6CZaBVBrCaMEHPzye6ZZbUpS8YmroLfVp2pPmCdaKtRdCuTCK2HXzwqWX3bMRj3viPMZo",
+            'keys'           => [],
+        ];
 
         $stub = json_decode(file_get_contents(dirname(__FILE__) . '/stubs/wallet.json'), TRUE);
-//        unset($stub['wallet']['state'], $stub['wallet']['master'], $stub['wallet']['account']);
 
         $this->assertEquals(json_encode($stub), $wallet->toJson());
     }

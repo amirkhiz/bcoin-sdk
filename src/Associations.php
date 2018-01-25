@@ -1,15 +1,17 @@
-<?php namespace PhilipBrown\CapsuleCRM;
+<?php
 
-use PhilipBrown\CapsuleCRM\Associations\HasMany;
-use PhilipBrown\CapsuleCRM\Associations\BelongsTo;
-use PhilipBrown\CapsuleCRM\Associations\HasManyAssociation;
-use PhilipBrown\CapsuleCRM\Associations\BelongsToAssociation;
+namespace Habil\Bcoin;
+
+use Habil\Bcoin\Associations\HasMany;
+use Habil\Bcoin\Associations\BelongsTo;
+use Habil\Bcoin\Associations\HasManyAssociation;
+use Habil\Bcoin\Associations\BelongsToAssociation;
 
 /**
  * Trait Associations
  *
  * @property array $associations
- * @package PhilipBrown\CapsuleCRM
+ * @package Habil\Bcoin
  */
 trait Associations
 {
@@ -23,6 +25,15 @@ trait Associations
      */
     public function hasManyAssociations()
     {
+        $associations = [];
+
+        foreach ($this->associations as $name => $association) {
+            if ($association instanceOf HasManyAssociation) {
+                $associations[$name] = $association;
+            }
+        }
+
+        return $associations;
     }
 
     /**

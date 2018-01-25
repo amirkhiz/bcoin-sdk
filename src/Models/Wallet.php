@@ -8,8 +8,10 @@
 
 namespace Habil\Bcoin\Models;
 
+use Habil\Bcoin\Associations;
 use Habil\Bcoin\Connection;
 use Habil\Bcoin\Model;
+use Habil\Bcoin\Persistence\Persistable;
 use Habil\Bcoin\Querying\Findable;
 use Habil\Bcoin\Serializable;
 
@@ -21,7 +23,7 @@ use Habil\Bcoin\Serializable;
  */
 class Wallet extends Model
 {
-    use Findable, Serializable;
+    use Findable, Serializable, Associations, Persistable;
 
     /**
      * @see \Habil\Bcoin\Model::$fillable
@@ -44,7 +46,7 @@ class Wallet extends Model
      * @see \Habil\Bcoin\Model::$serializableConfig
      */
     protected $serializableConfig = [
-        'additional_methods' => ['state', 'master', 'account'],
+        'include_root' => FALSE,
     ];
 
     /**
@@ -65,5 +67,42 @@ class Wallet extends Model
         parent::__construct($connection);
 
         $this->fill($attributes);
+
+        $this->state();
+        $this->master();
+        $this->account();
+    }
+
+    public function state()
+    {
+        $this->belongsTo(
+            'state',
+            [
+                'serialize'        => TRUE,
+                'serializable_key' => 'state',
+            ]
+        );
+    }
+
+    public function master()
+    {
+        $this->belongsTo(
+            'master',
+            [
+                'serialize'        => TRUE,
+                'serializable_key' => 'master',
+            ]
+        );
+    }
+
+    public function account()
+    {
+        $this->belongsTo(
+            'account',
+            [
+                'serialize'        => TRUE,
+                'serializable_key' => 'account',
+            ]
+        );
     }
 }

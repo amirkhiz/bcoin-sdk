@@ -8,13 +8,21 @@
 
 namespace Habil\Bcoin\Models;
 
+use Habil\Bcoin\Associations;
+use Habil\Bcoin\Connection;
 use Habil\Bcoin\Model;
+use Habil\Bcoin\Persistence\Persistable;
+use Habil\Bcoin\Querying\Findable;
 use Habil\Bcoin\Serializable;
 
+/**
+ * Class Account
+ *
+ * @package Habil\Bcoin\Models
+ */
 class Account extends Model
-
 {
-    use Serializable;
+    use Serializable, Associations, Persistable, Findable;
 
     /**
      * @see \Habil\Bcoin\Model::$fillable
@@ -36,6 +44,7 @@ class Account extends Model
         'nested_address',
         'change_address',
         'account_key',
+        'keys',
     ];
 
     /**
@@ -56,10 +65,13 @@ class Account extends Model
     /**
      * Account constructor.
      *
-     * @param array $attributes
+     * @param \Habil\Bcoin\Connection $connection
+     * @param array                   $attributes
      */
-    public function __construct(array $attributes)
+    public function __construct(Connection $connection, array $attributes)
     {
+        parent::__construct($connection);
+
         $this->fill($attributes);
     }
 }

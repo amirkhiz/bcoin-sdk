@@ -1,10 +1,21 @@
-<?php namespace PhilipBrown\CapsuleCRM\Associations;
+<?php
 
+namespace Habil\Bcoin\Associations;
+
+/**
+ * Trait HasMany
+ *
+ * @property array $associations
+ */
 trait HasMany
 {
-    public function hasMany($name)
+    /**
+     * @param $name
+     * @param $options
+     */
+    public function hasMany($name, array $options = [])
     {
-        $association = new HasManyAssociation($name, $this);
+        $association = new HasManyAssociation($name, $this, $options);
 
         $this->associations[$name] = $association->proxy($this);
     }

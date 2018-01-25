@@ -1,5 +1,12 @@
-<?php namespace PhilipBrown\CapsuleCRM\Associations;
+<?php
 
+namespace Habil\Bcoin\Associations;
+
+/**
+ * Class BelongsToAssociation
+ *
+ * @package Habil\Bcoin\Associations
+ */
 class BelongsToAssociation
 {
     /**
@@ -8,7 +15,7 @@ class BelongsToAssociation
     private $name;
 
     /**
-     * @var Model
+     * @var \Habil\Bcoin\Model
      */
     private $model;
 
@@ -20,14 +27,14 @@ class BelongsToAssociation
     /**
      * Create a new BelongsToAssociation
      *
-     * @param string $name
-     * @param Model $model
-     * @return void
+     * @param string             $name
+     * @param \Habil\Bcoin\Model $model
+     * @param array              $options
      */
     public function __construct($name, $model, $options = [])
     {
-        $this->name = $name;
-        $this->model = $model;
+        $this->name    = $name;
+        $this->model   = $model;
         $this->options = $options;
     }
 
@@ -42,7 +49,7 @@ class BelongsToAssociation
             return $this->options['serialize'];
         }
 
-        return true;
+        return TRUE;
     }
 
     /**
@@ -80,6 +87,6 @@ class BelongsToAssociation
      */
     private function inferForeignKey()
     {
-        return strtolower($this->name).'_id';
+        return strtolower($this->name) . '_id';
     }
 }

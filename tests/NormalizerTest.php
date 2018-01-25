@@ -45,7 +45,10 @@ class NormalizerTest extends PHPUnit\Framework\TestCase
         $normalizer = new Normalizer($this->model, '');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @throws \ReflectionException
+     */
     public function model_method_should_require_attributes_array()
     {
         $this->expectException('ArgumentCountError');

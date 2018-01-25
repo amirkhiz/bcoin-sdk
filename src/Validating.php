@@ -10,6 +10,11 @@ namespace Habil\Bcoin;
 
 use Sirius\Validation\Validator;
 
+/**
+ * Trait Validating
+ *
+ * @package Habil\Bcoin
+ */
 trait Validating
 {
     /**

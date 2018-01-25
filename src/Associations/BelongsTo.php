@@ -1,12 +1,21 @@
-<?php namespace PhilipBrown\CapsuleCRM\Associations;
+<?php
 
+namespace Habil\Bcoin\Associations;
+
+/**
+ * Trait BelongsTo
+ *
+ * @property array $associations
+ * @package Habil\Bcoin\Associations
+ */
 trait BelongsTo
 {
     /**
      * Create a new BelongsToAssociation
      *
      * @param string $name
-     * @param array $options
+     * @param array  $options
+     *
      * @return void
      */
     public function belongsTo($name, $options = [])

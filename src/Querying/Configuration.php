@@ -14,6 +14,7 @@ trait Configuration
      * Return an instance of the Options object
      *
      * @return \Habil\Bcoin\Querying\Options
+     * @throws \ReflectionException
      */
     public function queryableOptions()
     {

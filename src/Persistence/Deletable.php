@@ -24,7 +24,7 @@ trait Deletable
      */
     public function delete()
     {
-        $endpoint = '/api/' . $this->persistableConfig()->delete();
+        $endpoint = '/' . $this->persistableConfig()->delete();
 
         if ($this->connection->delete($endpoint)) {
             $this->id = NULL;

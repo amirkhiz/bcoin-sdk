@@ -8,6 +8,11 @@
 
 namespace Habil\Bcoin;
 
+/**
+ * Class Serializer
+ *
+ * @package Habil\Bcoin
+ */
 class Serializer
 {
     /**
@@ -135,12 +140,45 @@ class Serializer
         foreach ($this->options['additional_methods'] as $additional_method) {
             $attributes = array_merge(
                 $attributes,
-                [$additional_method => json_decode($this->model->$additional_method()->toJson())]
+                [
+                    $additional_method => json_decode($this->model->$additional_method()->toJson()),
+                ]
             );
         }
 
-        $attributes = array_merge($attributes, $this->model->attributes());
+        if (array_key_exists('Habil\Bcoin\Associations', class_uses($this->model))) {
+            foreach ($this->model->belongsToAssociations() as $name => $association) {
+                if ($association->serialize() && ($belongsToValue = $this->belongsToValue($this->model, $name))) {
+                    $attributes = array_merge(
+                        $attributes,
+                        [
+                            $association->serializableKey() => $belongsToValue,
+                        ]
+                    );
+                }
+            }
+            //TODO: Implement HasMany relation attributes
+        }
 
         return $attributes;
+    }
+
+    /**
+     * Get the id of the associated entity
+     *
+     * @param Model  $model
+     * @param string $name
+     *
+     * @return string
+     */
+    private function belongsToValue(Model $model, $name)
+    {
+        $value = $model->{$name};
+
+        if (!is_null($value) && isset($value->id)) {
+            return $value->id;
+        }
+
+        return $value;
     }
 }

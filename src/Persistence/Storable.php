@@ -83,7 +83,7 @@ trait Storable
      */
     private function createNewEntityRequest()
     {
-        $endpoint = '/api/' . $this->persistableConfig()->create();
+        $endpoint = '/' . $this->persistableConfig()->create();
 
         $this->id = $this->connection->post($endpoint, $this->toJson());
 
@@ -97,7 +97,7 @@ trait Storable
      */
     private function updateExistingEntityRequest()
     {
-        $endpoint = '/api/' . $this->persistableConfig()->update();
+        $endpoint = '/' . $this->persistableConfig()->update();
 
         $this->connection->put($endpoint, $this->toJson());
 

@@ -1,7 +1,14 @@
-<?php namespace PhilipBrown\CapsuleCRM\Associations;
+<?php
 
-use PhilipBrown\CapsuleCRM\Model;
+namespace Habil\Bcoin\Associations;
 
+use Habil\Bcoin\Model;
+
+/**
+ * Class HasManyAssociation
+ *
+ * @package Habil\Bcoin\Associations
+ */
 class HasManyAssociation
 {
     /**
@@ -10,7 +17,7 @@ class HasManyAssociation
     private $name;
 
     /**
-     * @var Model
+     * @var \Habil\Bcoin\Model
      */
     private $model;
 
@@ -22,33 +29,44 @@ class HasManyAssociation
     /**
      * Create a new HasManyAssociation
      *
-     * @param string $name
-     * @param Model $model
-     * @return void
+     * @param string             $name
+     * @param \Habil\Bcoin\Model $model
+     * @param array              $options
      */
-    public function __construct($name, $model, $options = [])
+    public function __construct($name, Model $model, array $options = [])
     {
-        $this->name = $name;
-        $this->model = $model;
+        $this->name    = $name;
+        $this->model   = $model;
         $this->options = $options;
     }
 
+    /**
+     * @param \Habil\Bcoin\Model $parent
+     *
+     * @return \Habil\Bcoin\Associations\HasManyProxy
+     */
     public function proxy(Model $parent)
     {
         return new HasManyProxy($parent, $this->targetClass());
     }
 
+    /**
+     * @return string
+     */
     public function targetClass()
     {
         if (isset($this->options['target_class'])) {
-            return $this->$this->options['target_class'];
+            return $this->options['target_class'];
         }
 
         return $this->inferTargetClass();
     }
 
+    /**
+     * @return string
+     */
     private function inferTargetClass()
     {
-        return 'PhilipBrown\\CapsuleCRM\\'.ucfirst($this->name);
+        return 'Habil\\Bcoin\\Models\\' . ucfirst($this->name);
     }
 }

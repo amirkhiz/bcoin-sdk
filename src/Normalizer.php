@@ -52,9 +52,15 @@ class Normalizer
      */
     protected $attribute_to_assign;
 
+    /**
+     * Normalizer constructor.
+     *
+     * @param \Habil\Bcoin\Model $model
+     * @param array              $options
+     */
     public function __construct(Model $model, array $options = [])
     {
-        $this->model = $model;
+        $this->model   = $model;
         $this->options = $options;
     }
 
@@ -64,6 +70,7 @@ class Normalizer
      * @param array $attributes
      *
      * @return \Habil\Bcoin\Model
+     * @throws \ReflectionException
      */
     public function model(array $attributes)
     {
@@ -210,9 +217,17 @@ class Normalizer
      */
     private function normalizeModel(array $attributes)
     {
-        return $this->createNewModelInstance(
-            $this->model->base()->singular()->camelCase(), $attributes[(string)$this->root()]
-        );
+        if ($this->includeRoot()) {
+            return $this->createNewModelInstance(
+                $this->model->base()->singular()->camelCase(),
+                $attributes[(string)$this->root()]
+            );
+        } else {
+            return $this->createNewModelInstance(
+                $this->model->base()->singular()->camelCase(),
+                $attributes
+            );
+        }
     }
 
     /**
@@ -227,14 +242,30 @@ class Normalizer
         $collection = new Collection;
         $type       = (string)$this->collectionRoot();
         $root       = (string)$this->root();
-        if ($this->isAssociativeArray($attributes[$type][$root])) {
-            $collection[] = $this->createNewModelInstance($root, $attributes[$type][$root]);
+        echo json_encode($attributes);
+
+        if ($this->includeRoot()) {
+            if ($this->isAssociativeArray($attributes[$type][$root])) {
+                $collection[] = $this->createNewModelInstance($root, $attributes[$type][$root]);
+            } else {
+                foreach ($attributes[$type][$root] as $entity) {
+                    if ($this->attributeToAssign()) {
+                        $collection[] = $this->createNewModelInstance($root, [$this->attributeToAssign() => $entity]);
+                    } else {
+                        $collection[] = $this->createNewModelInstance($root, $entity);
+                    }
+                }
+            }
         } else {
-            foreach ($attributes[$type][$root] as $entity) {
-                if ($this->attributeToAssign()) {
-                    $collection[] = $this->createNewModelInstance($root, [$this->attributeToAssign() => $entity]);
-                } else {
-                    $collection[] = $this->createNewModelInstance($root, $entity);
+            if ($this->isAssociativeArray($attributes)) {
+                $collection[] = $this->createNewModelInstance($root, $attributes);
+            } else {
+                foreach ($attributes as $entity) {
+                    if ($this->attributeToAssign()) {
+                        $collection[] = $this->createNewModelInstance($root, [$this->attributeToAssign() => $entity]);
+                    } else {
+                        $collection[] = $this->createNewModelInstance($root, $entity);
+                    }
                 }
             }
         }
@@ -256,5 +287,15 @@ class Normalizer
         if (isset($this->model->serializableOptions()['attribute_to_assign'])) {
             return $this->model->serializableOptions()['attribute_to_assign'];
         }
+    }
+
+    /**
+     * Check to see if the current model should include the root
+     *
+     * @return bool
+     */
+    private function includeRoot()
+    {
+        return $this->options['include_root'];
     }
 }
