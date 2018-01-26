@@ -78,20 +78,25 @@ class Account extends Model
 
         $this->persistableConfig = [
             'create' => function () {
-                return $this->createUrl();
+                return $this->createUri();
             },
         ];
 
         $this->queryableOptions = [
             'singular' => function () {
-                return $this->singularUrl();
+                return $this->singularUri();
             },
         ];
 
         $this->belongsTo('wallet', ['class_name' => 'Wallet']);
     }
 
-    private function createUrl()
+    /**
+     * Return the create uri for account
+     *
+     * @return string
+     */
+    private function createUri()
     {
         if ($this->wallet && $this->name) {
             return 'wallet/' . $this->wallet->id . '/account/' . $this->name;
@@ -100,7 +105,12 @@ class Account extends Model
         return 'account';
     }
 
-    private function singularUrl()
+    /**
+     * Return the uri to access singular account
+     *
+     * @return string
+     */
+    private function singularUri()
     {
         if ($this->wallet) {
             return 'wallet/' . $this->wallet->id . '/account';

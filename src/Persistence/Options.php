@@ -38,7 +38,7 @@ class Options
      * Generate the create endpoint
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function create()
     {
@@ -51,7 +51,7 @@ class Options
      * Generate the update endpoint
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function update()
     {
@@ -64,7 +64,7 @@ class Options
      * Generate the delete endpoint
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function delete()
     {

@@ -24,7 +24,7 @@ trait FindAll
      * @param array $params
      *
      * @return \Illuminate\Support\Collection
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function all($params = [])
     {

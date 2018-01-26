@@ -49,7 +49,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function should_serialize()
     {

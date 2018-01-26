@@ -164,7 +164,7 @@ abstract class Model
      *
      * @param array $attributes
      */
-    protected function fill(array $attributes)
+    public function fill(array $attributes)
     {
         foreach ($this->fillableFromArray($attributes) as $key => $value) {
             if ($this->isFillable($key)) {
@@ -177,7 +177,7 @@ abstract class Model
      * Return the base meta class
      *
      * @return \Habil\Bcoin\Meta\Base
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function base()
     {

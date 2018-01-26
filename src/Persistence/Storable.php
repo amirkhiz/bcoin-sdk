@@ -23,8 +23,8 @@ trait Storable
      *
      * @param array $attributes
      *
-     * @return \Habil\Bcoin\Model
-     * @throws \ReflectionException
+     * @return \Habil\Bcoin\Model|\Habil\Bcoin\Persistence\Storable
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function create(array $attributes)
     {
@@ -41,7 +41,7 @@ trait Storable
      * @param array $attributes
      *
      * @return bool
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function update(array $attributes)
     {
@@ -54,7 +54,7 @@ trait Storable
      * Save the current entity
      *
      * @return bool
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function save()
     {
@@ -83,7 +83,7 @@ trait Storable
      * Create a new entity request
      *
      * @return bool
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     private function createNewEntityRequest()
     {
@@ -103,7 +103,7 @@ trait Storable
      * Update an existing request
      *
      * @return bool
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     private function updateExistingEntityRequest()
     {

@@ -47,7 +47,7 @@ class NormalizerTest extends PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function model_method_should_require_attributes_array()
     {

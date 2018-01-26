@@ -9,6 +9,7 @@
 namespace Habil\Bcoin;
 
 use GuzzleHttp\Client;
+use Habil\Bcoin\Exceptions\BcoinException;
 
 class Connection
 {
@@ -59,16 +60,21 @@ class Connection
      * Return an HTTP client instance
      *
      * @return \GuzzleHttp\Client
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function client()
     {
         if ($this->client) return $this->client;
 
-        return new Client(
-            [
-                'base_uri' => "http://{$this->username}:{$this->password}@{$this->ip}:{$this->port}",
-            ]
-        );
+        try {
+            return new Client(
+                [
+                    'base_uri' => "http://{$this->username}:{$this->password}@{$this->ip}:{$this->port}",
+                ]
+            );
+        } catch (\Exception $e) {
+            throw new BcoinException($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -78,16 +84,21 @@ class Connection
      * @param array  $params
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function get($uri, array $params = [])
     {
-        $options = [];
-        !empty($params) && $options['query'] = $params;
+        try {
+            $options = [];
+            !empty($params) && $options['query'] = $params;
 
-        return $this->client()->get(
-            $uri,
-            $options
-        );
+            return $this->client()->get(
+                $uri,
+                $options
+            );
+        } catch (\Exception $e) {
+            throw new BcoinException($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -97,20 +108,25 @@ class Connection
      * @param string $body
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function post($uri, $body)
     {
-        $options = [];
-        !empty($body) && $options['body'] = $body;
+        try {
+            $options = [];
+            !empty($body) && $options['body'] = $body;
 
-        $options['header'] = [
-            'Content-Type' => 'application/json',
-        ];
+            $options['header'] = [
+                'Content-Type' => 'application/json',
+            ];
 
-        return $this->client()->post(
-            $uri,
-            $options
-        );
+            return $this->client()->post(
+                $uri,
+                $options
+            );
+        } catch (\Exception $e) {
+            throw new BcoinException($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -120,19 +136,24 @@ class Connection
      * @param string $body
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function put($uri, $body)
     {
-        $options = [];
-        !empty($body) && $options['body'] = $body;
+        try {
+            $options = [];
+            !empty($body) && $options['body'] = $body;
 
-        $options['header'] = [
-            'Content-Type' => 'application/json',
-        ];
+            $options['header'] = [
+                'Content-Type' => 'application/json',
+            ];
 
-        return $this->client()->put(
-            $uri,
-            $options
-        );
+            return $this->client()->put(
+                $uri,
+                $options
+            );
+        } catch (\Exception $e) {
+            throw new BcoinException($e->getMessage(), $e->getCode());
+        }
     }
 }

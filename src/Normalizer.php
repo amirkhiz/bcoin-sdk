@@ -70,7 +70,7 @@ class Normalizer
      * @param array $attributes
      *
      * @return \Habil\Bcoin\Model
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function model(array $attributes)
     {
@@ -213,7 +213,7 @@ class Normalizer
      * @param array $attributes
      *
      * @return \Habil\Bcoin\Model
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     private function normalizeModel(array $attributes)
     {

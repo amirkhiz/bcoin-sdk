@@ -41,7 +41,7 @@ class Serializer
      * @param \Habil\Bcoin\Model $model
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function serialize(Model $model)
     {
@@ -68,7 +68,7 @@ class Serializer
      * Return the root of the model
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     private function root()
     {
@@ -83,7 +83,7 @@ class Serializer
      * Serialize the model with the root
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     private function serializeWithRoot()
     {

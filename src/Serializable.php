@@ -27,7 +27,7 @@ trait Serializable
      * Serialize the current object to JSON
      *
      * @return string
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function toJson()
     {
@@ -38,7 +38,7 @@ trait Serializable
      * Return the serializable options
      *
      * @return array
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function serializableOptions()
     {
@@ -51,7 +51,7 @@ trait Serializable
      * Set the serializable options array
      *
      * @return void
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     private function setSerializableOptionsArray()
     {
@@ -67,7 +67,7 @@ trait Serializable
      * Create a new Serializer object
      *
      * @return Serializer
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     private function serializer()
     {

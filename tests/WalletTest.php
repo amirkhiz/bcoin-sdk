@@ -29,7 +29,7 @@ class WalletTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function find_wallet_by_id()
     {
@@ -50,7 +50,7 @@ class WalletTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function should_serialize_model()
     {

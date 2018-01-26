@@ -25,7 +25,7 @@ trait FindOne
      * @param mixed $id
      *
      * @return \Habil\Bcoin\Model
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function find($id)
     {

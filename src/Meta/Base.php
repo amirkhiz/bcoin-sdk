@@ -8,6 +8,7 @@
 
 namespace Habil\Bcoin\Meta;
 
+use Habil\Bcoin\Exceptions\BcoinException;
 use Habil\Bcoin\Model;
 
 class Base
@@ -24,11 +25,15 @@ class Base
      *
      * @param \Habil\Bcoin\Model $model
      *
-     * @throws \ReflectionException
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
     public function __construct(Model $model)
     {
-        $this->reflection = new \ReflectionClass($model);
+        try {
+            $this->reflection = new \ReflectionClass($model);
+        } catch (\ReflectionException $e) {
+            throw new BcoinException($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
