@@ -44,7 +44,8 @@ class Options
      */
     public function singular()
     {
-        return $this->options['singular']();
+        return is_callable($this->options['singular']) ?
+            $this->options['singular']() : $this->options['singular'];
     }
 
     /**
@@ -54,6 +55,7 @@ class Options
      */
     public function plural()
     {
-        return $this->options['plural']();
+        return is_callable($this->options['plural']) ?
+            $this->options['plural']() : $this->options['plural'];
     }
 }

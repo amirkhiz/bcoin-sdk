@@ -8,9 +8,9 @@
 
 namespace Habil\Bcoin\Models;
 
+use Habil\Bcoin\Arrayable;
 use Habil\Bcoin\Associations;
 use Habil\Bcoin\Connection;
-use Habil\Bcoin\Helper;
 use Habil\Bcoin\Model;
 use Habil\Bcoin\Persistence\Persistable;
 use Habil\Bcoin\Querying\Findable;
@@ -23,7 +23,11 @@ use Habil\Bcoin\Serializable;
  */
 class Account extends Model
 {
-    use Serializable, Associations, Persistable, Findable;
+    use Serializable,
+        Associations,
+        Persistable,
+        Findable,
+        Arrayable;
 
     /**
      * @see \Habil\Bcoin\Model::$fillable

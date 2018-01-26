@@ -34,7 +34,7 @@ class WalletTest extends \PHPUnit\Framework\TestCase
     public function find_wallet_by_id()
     {
         $response = file_get_contents(dirname(__FILE__) . '/stubs/wallet.json');
-        $this->message->shouldReceive('json')->andReturn(json_decode($response, TRUE));
+        $this->message->shouldReceive('getBody')->andReturn($response);
         $this->connection->shouldReceive('get')->andReturn($this->message);
 
         $wallet = $this->wallet->find('primary');
@@ -75,23 +75,23 @@ class WalletTest extends \PHPUnit\Framework\TestCase
         ];
         $wallet->master  = ['encrypted' => FALSE];
         $wallet->account = [
-            'name'           => "default",
-            'initialized'    => TRUE,
-            'witness'        => FALSE,
-            'watchOnly'      => FALSE,
-            'type'           => "pubkeyhash",
-            'm'              => 1,
-            'n'              => 1,
-            'accountIndex'   => 0,
-            'receiveDepth'   => 1,
-            'changeDepth'    => 1,
-            'nestedDepth'    => 0,
-            'lookahead'      => 10,
-            'receiveAddress' => "mwfDKs919Br8tNFamk6RhRpfaa6cYQ5fMN",
-            'nestedAddress'  => NULL,
-            'changeAddress'  => "msG6V75J6XNt5mCqBhjgC4MjDH8ivEEMs9",
-            'accountKey'     => "tpubDDRH1rj7ut9ZjcGakR9VGgXU8zYSZypLtMr7Aq6CZaBVBrCaMEHPzye6ZZbUpS8YmroLfVp2pPmCdaKtRdCuTCK2HXzwqWX3bMRj3viPMZo",
-            'keys'           => [],
+            'name'            => "default",
+            'initialized'     => TRUE,
+            'witness'         => FALSE,
+            'watch_only'      => FALSE,
+            'type'            => "pubkeyhash",
+            'm'               => 1,
+            'n'               => 1,
+            'account_index'   => 0,
+            'receive_depth'   => 1,
+            'change_depth'    => 1,
+            'nested_depth'    => 0,
+            'lookahead'       => 10,
+            'receive_address' => "mwfDKs919Br8tNFamk6RhRpfaa6cYQ5fMN",
+            'nested_address'  => NULL,
+            'change_address'  => "msG6V75J6XNt5mCqBhjgC4MjDH8ivEEMs9",
+            'account_key'     => "tpubDDRH1rj7ut9ZjcGakR9VGgXU8zYSZypLtMr7Aq6CZaBVBrCaMEHPzye6ZZbUpS8YmroLfVp2pPmCdaKtRdCuTCK2HXzwqWX3bMRj3viPMZo",
+            'keys'            => [],
         ];
 
         $stub = json_decode(file_get_contents(dirname(__FILE__) . '/stubs/wallet.json'), TRUE);

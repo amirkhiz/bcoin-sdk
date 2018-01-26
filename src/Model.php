@@ -10,6 +10,7 @@ namespace Habil\Bcoin;
 
 use Habil\Bcoin\Meta\Base;
 use Habil\Bcoin\Querying\Configuration;
+use Illuminate\Support\Str;
 
 /**
  * Class Model

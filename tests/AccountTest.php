@@ -6,16 +6,23 @@
  * Time: 16:24
  */
 
+use Mockery as Mock;
 use Habil\Bcoin\Models\Account;
 
 class AccountTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var \Habil\Bcoin\Connection */
+    private $connection;
+
     /** @var \Habil\Bcoin\Models\Account */
     private $account;
 
     public function setUp()
     {
+        $this->connection = Mock::mock('Habil\Bcoin\Connection');
+
         $this->account = new Account(
+            $this->connection,
             [
                 'name'            => 'default',
                 'initialized'     => TRUE,
@@ -53,6 +60,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
      */
     public function should_serialize()
     {
+        $this->account->wallet = ['id' => 'primary'];
         $this->assertTrue(is_object(json_decode($this->account->toJson())));
     }
 }

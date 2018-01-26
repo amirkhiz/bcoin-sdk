@@ -8,12 +8,15 @@
 
 namespace Habil\Bcoin\Models;
 
+use Habil\Bcoin\Arrayable;
+use Habil\Bcoin\Connection;
 use Habil\Bcoin\Model;
 use Habil\Bcoin\Serializable;
 
 class Master extends Model
 {
-    use Serializable;
+    use Serializable,
+        Arrayable;
 
     /**
      * @see \Habil\Bcoin\Model::$fillable
@@ -33,10 +36,13 @@ class Master extends Model
     /**
      * Account constructor.
      *
-     * @param array $attributes
+     * @param \Habil\Bcoin\Connection $connection
+     * @param array                   $attributes
      */
-    public function __construct(array $attributes)
+    public function __construct(Connection $connection, array $attributes)
     {
+        parent::__construct($connection);
+
         $this->fill($attributes);
     }
 }

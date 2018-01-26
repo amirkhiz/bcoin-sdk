@@ -242,7 +242,6 @@ class Normalizer
         $collection = new Collection;
         $type       = (string)$this->collectionRoot();
         $root       = (string)$this->root();
-        echo json_encode($attributes);
 
         if ($this->includeRoot()) {
             if ($this->isAssociativeArray($attributes[$type][$root])) {

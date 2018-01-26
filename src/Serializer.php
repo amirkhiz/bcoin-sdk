@@ -148,11 +148,11 @@ class Serializer
 
         if (array_key_exists('Habil\Bcoin\Associations', class_uses($this->model))) {
             foreach ($this->model->belongsToAssociations() as $name => $association) {
-                if ($association->serialize() && ($belongsToValue = $this->belongsToValue($this->model, $name))) {
+                if ($association->serialize() && ($belongsToModel = $this->belongsToValue($this->model, $name))) {
                     $attributes = array_merge(
                         $attributes,
                         [
-                            $association->serializableKey() => $belongsToValue,
+                            $association->serializableKey() => $belongsToModel->toArray(),
                         ]
                     );
                 }
@@ -173,12 +173,16 @@ class Serializer
      */
     private function belongsToValue(Model $model, $name)
     {
-        $value = $model->{$name};
+        try {
+            $value = $model->{$name};
 
-        if (!is_null($value) && isset($value->id)) {
-            return $value->id;
+            if (!is_null($value) && isset($value->id)) {
+                return $value->id;
+            }
+
+            return $value;
+        } catch (\Exception $exception) {
+            return NULL;
         }
-
-        return $value;
     }
 }

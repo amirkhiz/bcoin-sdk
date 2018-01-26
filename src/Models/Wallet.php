@@ -8,6 +8,7 @@
 
 namespace Habil\Bcoin\Models;
 
+use Habil\Bcoin\Arrayable;
 use Habil\Bcoin\Associations;
 use Habil\Bcoin\Connection;
 use Habil\Bcoin\Model;
@@ -23,7 +24,11 @@ use Habil\Bcoin\Serializable;
  */
 class Wallet extends Model
 {
-    use Findable, Serializable, Associations, Persistable;
+    use Findable,
+        Serializable,
+        Associations,
+        Persistable,
+        Arrayable;
 
     /**
      * @see \Habil\Bcoin\Model::$fillable
@@ -80,6 +85,7 @@ class Wallet extends Model
             [
                 'serialize'        => TRUE,
                 'serializable_key' => 'state',
+                'class_name'       => 'State',
             ]
         );
     }
@@ -91,6 +97,7 @@ class Wallet extends Model
             [
                 'serialize'        => TRUE,
                 'serializable_key' => 'master',
+                'class_name'       => 'Master',
             ]
         );
     }
@@ -102,6 +109,7 @@ class Wallet extends Model
             [
                 'serialize'        => TRUE,
                 'serializable_key' => 'account',
+                'class_name'       => 'Account',
             ]
         );
     }
