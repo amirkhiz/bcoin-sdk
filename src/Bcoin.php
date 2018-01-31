@@ -9,6 +9,7 @@
 namespace Habil\Bcoin;
 
 use Habil\Bcoin\Models\Account;
+use Habil\Bcoin\Models\Transaction;
 use Habil\Bcoin\Models\Wallet;
 
 class Bcoin
@@ -50,5 +51,15 @@ class Bcoin
     public function account()
     {
         return new Account($this->connection);
+    }
+
+    /**
+     * Return a new Transaction Model
+     *
+     * @return \Habil\Bcoin\Models\Transaction
+     */
+    public function transaction()
+    {
+        return new Transaction($this->connection);
     }
 }

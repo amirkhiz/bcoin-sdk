@@ -27,6 +27,8 @@ class Transaction extends Model
      * @see \Habil\Bcoin\Model::$fillable
      */
     protected $fillable = [
+        'wid',
+        'id',
         'hash',
         'witness_hash',
         'fee',
@@ -35,18 +37,23 @@ class Transaction extends Model
         'height',
         'block',
         'time',
+        'date',
         'index',
         'version',
         'flag',
         'locktime',
         'confirmations',
+        'size',
+        'virtual_size',
+        'tx',
     ];
 
     /**
      * @see \Habil\Bcoin\Model::$serializableConfig
      */
     protected $serializableConfig = [
-        'include_root' => FALSE,
+        'include_root'       => FALSE,
+        'include_subclasses' => ['inputs', 'outputs'],
     ];
 
     /**
@@ -61,12 +68,16 @@ class Transaction extends Model
         parent::__construct($connection);
 
         $this->fill($attributes);
+
+        //Init relations
+        $this->input();
+        $this->output();
     }
 
     /**
-     * Find a single entity by it's id
+     * Find a transactions that related to this address
      *
-     * @param mixed $address
+     * @param string $address
      *
      * @return \Illuminate\Support\Collection
      * @throws \Habil\Bcoin\Exceptions\BcoinException
@@ -80,5 +91,49 @@ class Transaction extends Model
         $normalizer = new Normalizer($this);
 
         return $normalizer->collection(json_decode($response->getBody(), TRUE));
+    }
+
+    /**
+     * Find a single transaction with hash code
+     *
+     * @param  string $walletId
+     * @param string  $hash
+     *
+     * @return \Habil\Bcoin\Model
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
+     */
+    public function findByHash($walletId, $hash)
+    {
+        $endpoint = "wallet/{$walletId}/tx/{$hash}";
+
+        $response = $this->connection->get($endpoint);
+
+        $normalizer = new Normalizer($this);
+
+        return $normalizer->model(json_decode($response->getBody(), TRUE));
+    }
+
+    private function input()
+    {
+        $this->belongsTo(
+            'inputs',
+            [
+                'serialize'        => TRUE,
+                'serializable_key' => 'inputs',
+                'class_name'       => 'Input',
+            ]
+        );
+    }
+
+    private function output()
+    {
+        $this->belongsTo(
+            'outputs',
+            [
+                'serialize'        => TRUE,
+                'serializable_key' => 'outputs',
+                'class_name'       => 'Output',
+            ]
+        );
     }
 }

@@ -51,7 +51,8 @@ class Wallet extends Model
      * @see \Habil\Bcoin\Model::$serializableConfig
      */
     protected $serializableConfig = [
-        'include_root' => FALSE,
+        'include_root'       => FALSE,
+        'include_subclasses' => ['state', 'master', 'account'],
     ];
 
     /**

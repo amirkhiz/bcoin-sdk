@@ -34,6 +34,6 @@ trait FindAll
 
         $normalizer = new Normalizer($this);
 
-        return $normalizer->collection($response->json());
+        return $normalizer->collection(json_decode($response->getBody(), TRUE));
     }
 }

@@ -12,6 +12,10 @@ use Illuminate\Support\Str;
 
 trait Arrayable
 {
+    /**
+     * Return model attributes and relations in array format
+     * @return array
+     */
     public function toArray()
     {
         return array_merge($this->attributesToArray(), $this->relationsToArray());

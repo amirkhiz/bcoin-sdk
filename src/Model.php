@@ -10,6 +10,7 @@ namespace Habil\Bcoin;
 
 use Habil\Bcoin\Meta\Base;
 use Habil\Bcoin\Querying\Configuration;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -127,9 +128,11 @@ abstract class Model
      *
      * @return void
      */
-    protected function setAttribute($key, $value)
+    public function setAttribute($key, $value)
     {
-        $this->attributes[$key] = $value;
+        if ($this->isFillable($key)) {
+            $this->attributes[$key] = $value;
+        }
     }
 
     /**
@@ -168,9 +171,7 @@ abstract class Model
     public function fill(array $attributes)
     {
         foreach ($this->fillableFromArray($attributes) as $key => $value) {
-            if ($this->isFillable($key)) {
-                $this->setAttribute($key, $value);
-            }
+            $this->setAttribute($key, $value);
         }
     }
 
@@ -205,7 +206,7 @@ abstract class Model
      */
     public function __get($key)
     {
-        if (isset($this->attributes[$key])) {
+        if (array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
 
@@ -234,7 +235,13 @@ abstract class Model
         }
 
         if (isset($this->associations[$key])) {
-            $this->relations[$key] = $this->associations[$key]->classInstance($value);
+            if ($value instanceof Model) {
+                $this->relations[$key] = $value;
+            } elseif ($value instanceof Collection) {
+                $this->relations[$key] = $value;
+            } else {
+                $this->relations[$key] = $this->associations[$key]->classInstance($value);
+            }
 
             return;
         }

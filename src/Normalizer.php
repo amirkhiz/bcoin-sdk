@@ -9,6 +9,7 @@
 namespace Habil\Bcoin;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Class Normalizer
@@ -65,7 +66,7 @@ class Normalizer
     }
 
     /**
-     * Normalize a collection of models
+     * Normalize a single of model
      *
      * @param array $attributes
      *
@@ -98,13 +99,27 @@ class Normalizer
     }
 
     /**
-     * Check to see if the entity has subclasses
+     * Check to see if the entity has subclasses directly in it.
      *
      * @return bool
      */
     private function hasSubclasses()
     {
         return is_array($this->root());
+    }
+
+    /**
+     * Check to see if the entity has subclasses included in it
+     *
+     * @return array|bool
+     */
+    private function includeSubclasses()
+    {
+        if (isset($this->options['include_subclasses'])) {
+            return $this->options['include_subclasses'];
+        }
+
+        return $this->model->serializableOptions()['include_subclasses'];
     }
 
     /**
@@ -126,7 +141,7 @@ class Normalizer
     }
 
     /**
-     * Normalize a subclass
+     * Normalize when item contain directly other models in it.
      *
      * @param array $attributes
      *
@@ -160,6 +175,13 @@ class Normalizer
         return new $class($this->model->connection(), $attributes);
     }
 
+    /**
+     * Normalize when collection item contain directly the other model in it.
+     *
+     * @param array $attributes
+     *
+     * @return array|\Illuminate\Support\Collection
+     */
     private function normalizeSubclassCollection(array $attributes)
     {
         foreach ($attributes[(string)$this->collectionRoot()] as $key => $value) {
@@ -223,11 +245,61 @@ class Normalizer
                 $attributes[(string)$this->root()]
             );
         } else {
-            return $this->createNewModelInstance(
+            $model = $this->createNewModelInstance(
                 $this->model->base()->singular()->camelCase(),
                 $attributes
             );
+
+            $this->normalizeIncludeSubclasses($model, $attributes);
+
+            return $model;
         }
+    }
+
+    /**
+     * Normalize included subclasses in model entity
+     *
+     * @param \Habil\Bcoin\Model $model
+     * @param array              $attributes
+     */
+    private function normalizeIncludeSubclasses(Model $model, array $attributes)
+    {
+        if ($includeSubclasses = $this->includeSubclasses()) {
+            foreach ($includeSubclasses as $includeSubclass) {
+                if (isset($attributes[$includeSubclass])) {
+                    if ($this->isCollectionAttribute($attributes[$includeSubclass])) {
+                        $collection = new Collection();
+                        foreach ($attributes[$includeSubclass] as $value) {
+                            if ($this->isAssociativeArray($value)) {
+                                $collection[] = $this->createNewModelInstance(Str::singular($includeSubclass), $value);
+                            } else {
+                                foreach ($value as $attributes) {
+                                    $collection[] = $this->createNewModelInstance(
+                                        Str::singular($includeSubclass),
+                                        $attributes
+                                    );
+                                }
+                            }
+                        }
+                        $model->{$includeSubclass} = $collection;
+                    } else {
+                        $model->{$includeSubclass} = $attributes[$includeSubclass];
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Check if the attribute key is collection of attributes or is an item
+     *
+     * @param array $attributes
+     *
+     * @return bool
+     */
+    private function isCollectionAttribute(array $attributes)
+    {
+        return !(bool)count(array_filter(array_keys($attributes), 'is_string'));
     }
 
     /**
@@ -261,9 +333,13 @@ class Normalizer
             } else {
                 foreach ($attributes as $entity) {
                     if ($this->attributeToAssign()) {
-                        $collection[] = $this->createNewModelInstance($root, [$this->attributeToAssign() => $entity]);
+                        $model = $this->createNewModelInstance($root, [$this->attributeToAssign() => $entity]);
+                        $this->normalizeIncludeSubclasses($model, $entity);
+                        $collection[] = $model;
                     } else {
-                        $collection[] = $this->createNewModelInstance($root, $entity);
+                        $model = $this->createNewModelInstance($root, $entity);
+                        $this->normalizeIncludeSubclasses($model, $entity);
+                        $collection[] = $model;
                     }
                 }
             }

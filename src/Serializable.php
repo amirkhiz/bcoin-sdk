@@ -56,10 +56,11 @@ trait Serializable
     private function setSerializableOptionsArray()
     {
         $this->serializableOptions = [
-            'root'               => $this->base()->lowercase()->singular(),
-            'collection_root'    => $this->base()->lowercase()->plural(),
-            'include_root'       => TRUE,
-            'additional_methods' => [],
+            'root'                => $this->base()->lowercase()->singular(),
+            'collection_root'     => $this->base()->lowercase()->plural(),
+            'include_root'        => TRUE,
+            'additional_methods'  => [],
+            'include_subclasses' => [],
         ];
     }
 

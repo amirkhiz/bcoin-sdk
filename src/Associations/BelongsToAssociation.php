@@ -106,7 +106,7 @@ class BelongsToAssociation
     public function className()
     {
         if (isset($this->options['class_name'])) {
-            return 'Habil\Bcoin\Models\\' . $this->options['class_name'];
+            return 'Habil\Bcoin\Models\\' . strtoupper($this->options['class_name']);
         }
 
         return 'Habil\Bcoin\Models\\' . strtoupper($this->name);
