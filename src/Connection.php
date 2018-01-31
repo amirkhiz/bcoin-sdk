@@ -10,6 +10,7 @@ namespace Habil\Bcoin;
 
 use GuzzleHttp\Client;
 use Habil\Bcoin\Exceptions\BcoinException;
+use Sirius\Validation\Validator;
 
 class Connection
 {
@@ -48,8 +49,39 @@ class Connection
      */
     protected $client;
 
+    /**
+     * Connection constructor.
+     *
+     * @param $username
+     * @param $password
+     * @param $ip
+     * @param $port
+     *
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
+     */
     public function __construct($username, $password, $ip, $port)
     {
+        $validator = new Validator;
+        $validator->add(
+            [
+                'username' => 'required',
+                'password' => 'required',
+                'ip'       => 'required|ipaddress',
+                'port'     => 'required|integer',
+            ]
+        );
+
+        $data = [
+            'username' => $username,
+            'password' => $password,
+            'ip'       => $ip,
+            'port'     => $port,
+        ];
+
+        if (!$validator->validate($data)) {
+            throw new BcoinException(join('- ', $validator->getMessages()), 5001);
+        }
+
         $this->username = $username;
         $this->password = $password;
         $this->ip       = $ip;

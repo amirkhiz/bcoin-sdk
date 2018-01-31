@@ -7,7 +7,7 @@
  */
 
 use Mockery as Mock;
-use Habil\Bcoin\Normalizer;
+use Habil\Bcoin\Querying\Normalizer;
 use Habil\Bcoin\Model;
 use Habil\Bcoin\Connection;
 
@@ -19,7 +19,7 @@ class NormalizerTest extends PHPUnit\Framework\TestCase
     /** @var  \Habil\Bcoin\Model */
     private $model;
 
-    /** @var Normalizer */
+    /** @var \Habil\Bcoin\Querying\Normalizer */
     private $normalizer;
 
     public function setUp()

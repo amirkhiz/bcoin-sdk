@@ -8,9 +8,6 @@
 
 namespace Habil\Bcoin\Querying;
 
-use Habil\Bcoin\Helper;
-use Habil\Bcoin\Normalizer;
-
 /**
  * Trait FindOne
  *

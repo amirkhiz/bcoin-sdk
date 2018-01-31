@@ -8,6 +8,8 @@
 
 namespace Habil\Bcoin;
 
+use Habil\Bcoin\Meta\Helper;
+
 /**
  * Class Serializer
  *

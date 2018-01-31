@@ -12,7 +12,7 @@ use Habil\Bcoin\Arrayable;
 use Habil\Bcoin\Associations;
 use Habil\Bcoin\Connection;
 use Habil\Bcoin\Model;
-use Habil\Bcoin\Normalizer;
+use Habil\Bcoin\Querying\Normalizer;
 use Habil\Bcoin\Querying\Findable;
 use Habil\Bcoin\Serializable;
 

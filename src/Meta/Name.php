@@ -8,7 +8,6 @@
 
 namespace Habil\Bcoin\Meta;
 
-use Habil\Bcoin\Helper;
 use Illuminate\Support\Pluralizer;
 use Illuminate\Support\Str;
 

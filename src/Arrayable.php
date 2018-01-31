@@ -8,6 +8,7 @@
 
 namespace Habil\Bcoin;
 
+use Habil\Bcoin\Meta\Helper;
 use Illuminate\Support\Str;
 
 trait Arrayable

@@ -6,7 +6,7 @@
  * Time: 17:08
  */
 
-namespace Habil\Bcoin;
+namespace Habil\Bcoin\Meta;
 
 use Illuminate\Support\Str;
 

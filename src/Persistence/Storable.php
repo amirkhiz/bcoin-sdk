@@ -8,8 +8,6 @@
 
 namespace Habil\Bcoin\Persistence;
 
-use Habil\Bcoin\Helper;
-
 /**
  * Trait Storable
  *

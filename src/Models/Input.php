@@ -11,7 +11,6 @@ namespace Habil\Bcoin\Models;
 use Habil\Bcoin\Arrayable;
 use Habil\Bcoin\Associations;
 use Habil\Bcoin\Connection;
-use Habil\Bcoin\Helper;
 use Habil\Bcoin\Model;
 use Habil\Bcoin\Serializable;
 

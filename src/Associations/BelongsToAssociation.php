@@ -3,7 +3,6 @@
 namespace Habil\Bcoin\Associations;
 
 use Habil\Bcoin\Connection;
-use Habil\Bcoin\Helper;
 
 /**
  * Class BelongsToAssociation

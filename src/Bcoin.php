@@ -24,13 +24,16 @@ class Bcoin
     /**
      * Create a new instance of CapsuleCRM
      *
-     * @param \Habil\Bcoin\Connection $connection
+     * @param string $username
+     * @param string $password
+     * @param string $ip
+     * @param int    $port
      *
-     * @return void
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
      */
-    public function __construct(Connection $connection)
+    public function __construct($username, $password, $ip, $port)
     {
-        $this->connection = $connection;
+        $this->connection = new Connection($username, $password, $ip, $port);
     }
 
     /**

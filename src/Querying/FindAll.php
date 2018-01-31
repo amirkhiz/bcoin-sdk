@@ -8,8 +8,6 @@
 
 namespace Habil\Bcoin\Querying;
 
-use Habil\Bcoin\Normalizer;
-
 /**
  * Trait FindAll
  *
