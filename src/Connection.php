@@ -66,7 +66,7 @@ class Connection
             [
                 'username' => 'required',
                 'password' => 'required',
-                'ip'       => 'required|ipaddress',
+                'ip'       => 'required|ip',
                 'port'     => 'required|integer',
             ]
         );
