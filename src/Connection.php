@@ -10,6 +10,7 @@ namespace Habil\Bcoin;
 
 use GuzzleHttp\Client;
 use Habil\Bcoin\Exceptions\BcoinException;
+use Habil\Bcoin\Meta\Helper;
 use Sirius\Validation\Validator;
 
 class Connection
@@ -61,26 +62,14 @@ class Connection
      */
     public function __construct($username, $password, $ip, $port)
     {
-        $validator = new Validator;
-        $validator->add(
+        $this->validate(
             [
-                'username' => 'required',
-                'password' => 'required',
-                'ip'       => 'required|ip',
-                'port'     => 'required|integer',
+                'username' => $username,
+                'password' => $password,
+                'ip'       => $ip,
+                'port'     => $port,
             ]
         );
-
-        $data = [
-            'username' => $username,
-            'password' => $password,
-            'ip'       => $ip,
-            'port'     => $port,
-        ];
-
-        if (!$validator->validate($data)) {
-            throw new BcoinException(join('- ', $validator->getMessages()), 5001);
-        }
 
         $this->username = $username;
         $this->password = $password;
@@ -186,6 +175,32 @@ class Connection
             );
         } catch (\Exception $e) {
             throw new BcoinException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * @param $data
+     *
+     * @throws \Habil\Bcoin\Exceptions\BcoinException
+     */
+    private function validate($data)
+    {
+        $validator = new Validator;
+        $validator->add(
+            [
+                'username' => 'required',
+                'password' => 'required',
+                'ip'       => 'required',
+                'port'     => 'required | integer',
+            ]
+        );
+
+        if (!$validator->validate($data)) {
+            foreach ($validator->getMessages() as $rule => $message) {
+                foreach ($message as $item) {
+                    throw new BcoinException($item, 5001);
+                }
+            }
         }
     }
 }

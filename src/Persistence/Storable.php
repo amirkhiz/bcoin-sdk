@@ -8,6 +8,8 @@
 
 namespace Habil\Bcoin\Persistence;
 
+use Habil\Bcoin\Exceptions\BcoinException;
+
 /**
  * Trait Storable
  *
@@ -56,15 +58,15 @@ trait Storable
      */
     public function save()
     {
-        if ($this->validate()) {
-            if ($this->isNewEntity()) {
-                return $this->createNewEntityRequest();
-            }
-
-            return $this->updateExistingEntityRequest();
+        if (!$this->validate()) {
+            throw new BcoinException($this->getMessages()[0]);
         }
 
-        return FALSE;
+        if ($this->isNewEntity()) {
+            return $this->createNewEntityRequest();
+        }
+
+        return $this->updateExistingEntityRequest();
     }
 
     /**

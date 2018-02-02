@@ -31,6 +31,18 @@ trait Validating
      */
     protected $errors;
 
+    /**
+     * Formatted error messages
+     *
+     * @var array
+     */
+    protected $messages;
+
+    /**
+     * Validate sent data based on rules
+     *
+     * @return bool
+     */
     public function validate()
     {
         $validator = new Validator;
@@ -52,5 +64,29 @@ trait Validating
     public function errors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Return messages
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        $this->messageFormatter();
+
+        return $this->messages;
+    }
+
+    /**
+     * Format error messages
+     */
+    private function messageFormatter()
+    {
+        foreach ($this->errors as $rule => $message) {
+            foreach ($message as $item) {
+                $this->messages[$rule] = (string)$item;
+            }
+        }
     }
 }
